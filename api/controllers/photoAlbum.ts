@@ -15,7 +15,7 @@ export const createPhotoAlbum = async (req: any, res: any) => {
     });
 
     await newPhotoAlbum.save();
-    const url = `${req.protocol}://${req.get('host')}/photo-album/${newPhotoAlbum._id}`;
+    const url = `${process.env.APP}/gallery/${newPhotoAlbum._id}`;
 
     res.status(201).json({ url });
   } catch (error) {
