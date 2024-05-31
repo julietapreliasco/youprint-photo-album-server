@@ -9,6 +9,7 @@ import {
 const router = express.Router();
 
 router.route("/").get(getPhotoAlbums).post(createPhotoAlbum);
+
 router
   .route("/:id")
   .get(getPhotoAlbums)
