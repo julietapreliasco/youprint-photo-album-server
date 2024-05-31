@@ -20,30 +20,12 @@ mongoose
     console.error("Error connecting to MongoDB:", error);
   });
 
-// app.use((req, res, next) => {
-//   res.header(
-//     'Access-Control-Allow-Origin',
-//     process.env.NODE_ENV === 'production'
-//       ? 'https://youprint-photo-album.vercel.app'
-//       : 'http://localhost:5173',
-//   );
-//   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-//   res.header(
-//     'Access-Control-Allow-Headers',
-//     'Origin, X-Requested-With, Content-Type, Accept, Authorization',
-//   );
-//   next();
-// });
-
-// const corsOptions = {
-//   origin:
-//     process.env.NODE_ENV === 'production'
-//       ? 'https://youprint-photo-album.vercel.app'
-//       : 'http://localhost:5173',
-//   optionsSuccessStatus: 200,
-// };
-
-app.use(cors());
+app.use(
+  cors({
+    methods: "GET,POST,PUT,DELETE",
+    allowedHeaders: "Content-Type,Authorization",
+  })
+);
 
 app.use(express.json());
 
