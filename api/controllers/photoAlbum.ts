@@ -1,3 +1,4 @@
+import { isValidObjectId } from "mongoose";
 import PhotoAlbumModel from "../models/photoAlbum";
 
 export const createPhotoAlbum = async (req: any, res: any) => {
@@ -26,6 +27,9 @@ export const createPhotoAlbum = async (req: any, res: any) => {
 export const getPhotoAlbums = async (req: any, res: any) => {
   try {
     if (req.params.id) {
+      if (!isValidObjectId(req.params.id)) {
+        return res.status(400).json({ error: "URL inválida" });
+      }
       const photoAlbum = await PhotoAlbumModel.findById(req.params.id);
       if (!photoAlbum) {
         return res.status(404).json({ error: "Álbum de fotos no encontrado" });
