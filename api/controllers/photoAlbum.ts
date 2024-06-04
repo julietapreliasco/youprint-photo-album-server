@@ -61,6 +61,42 @@ export const deletePhotoAlbum = async (req: any, res: any) => {
   }
 };
 
+export const updatePhotos = async (req: any, res: any) => {
+  try {
+    const { id } = req.params;
+    const { photos } = req.body;
+
+    const photoAlbum = await PhotoAlbumModel.findById(id);
+    if (!photoAlbum) {
+      return res.status(404).json({ error: "Álbum de fotos no encontrado" });
+    }
+
+    if (!isValidObjectId(id)) {
+      return res.status(400).json({ error: "Id inválida" });
+    }
+
+    const existingPhotos = photoAlbum.photos;
+    const duplicatePhotos = photos.filter((photo: string) =>
+      existingPhotos.includes(photo)
+    );
+
+    if (duplicatePhotos.length > 0) {
+      return res.status(400).json({
+        error: "Una o más fotos ya existen en el álbum",
+      });
+    }
+
+    photoAlbum.photos = [...photoAlbum.photos, ...photos];
+    photoAlbum.updatedAt = new Date();
+
+    await photoAlbum.save();
+
+    res.status(200).json(photoAlbum);
+  } catch (error) {
+    res.status(500).json({ error: error });
+  }
+};
+
 export const updatePhotoAlbum = async (req: any, res: any) => {
   try {
     const { id } = req.params;
