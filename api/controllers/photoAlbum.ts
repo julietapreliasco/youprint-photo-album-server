@@ -51,6 +51,9 @@ export const deletePhotoAlbum = async (req: any, res: any) => {
     if (!photoAlbum) {
       return res.status(404).json({ error: "Álbum de fotos no encontrado" });
     }
+    if (!isValidObjectId(req.params.id)) {
+      return res.status(400).json({ error: "Id inválida" });
+    }
     await PhotoAlbumModel.deleteOne({ _id: photoAlbumId });
     res.status(200).json({ message: "Álbum de fotos eliminado exitosamente" });
   } catch (error) {
@@ -72,6 +75,10 @@ export const updatePhotoAlbum = async (req: any, res: any) => {
     const photoAlbum = await PhotoAlbumModel.findById(id);
     if (!photoAlbum) {
       return res.status(404).json({ error: "Álbum de fotos no encontrado" });
+    }
+
+    if (!isValidObjectId(id)) {
+      return res.status(400).json({ error: "Id inválida" });
     }
 
     photoAlbum.photos = photos;
