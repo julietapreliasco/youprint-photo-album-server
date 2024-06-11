@@ -3,7 +3,8 @@ export interface PhotoAlbum {
   client: {
     name?: string;
     phone: string;
-  }
+  };
   createdAt: Date;
   updatedAt?: Date;
+  isPending: Boolean;
 }

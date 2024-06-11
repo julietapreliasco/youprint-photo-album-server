@@ -1,11 +1,13 @@
-import { model, Schema } from 'mongoose';
-import { PhotoAlbum } from '../types';
+import { model, Schema } from "mongoose";
+import { PhotoAlbum } from "../types";
 
 const PhotoAlbumSchema = new Schema({
-  photos: [{
-    type: String,
-    required: true,
-  }],
+  photos: [
+    {
+      type: String,
+      required: true,
+    },
+  ],
   client: {
     name: {
       type: String,
@@ -19,12 +21,16 @@ const PhotoAlbumSchema = new Schema({
   createdAt: {
     type: Date,
     default: Date.now,
-    required: true
+    required: true,
   },
   updatedAt: {
     type: Date,
-    required: false
+    required: false,
+  },
+  isPending: {
+    type: Boolean,
+    required: true,
   },
 });
 
-export default model<PhotoAlbum>('PhotoAlbum', PhotoAlbumSchema);
+export default model<PhotoAlbum>("PhotoAlbum", PhotoAlbumSchema);

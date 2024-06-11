@@ -4,6 +4,7 @@ import {
   deletePhotoAlbum,
   getPhotoAlbums,
   updatePhotoAlbum,
+  updatePhotoAlbumStatus,
   updatePhotos,
 } from "../controllers/photoAlbum";
 import {
@@ -29,5 +30,7 @@ router
 router
   .route("/update/:id")
   .put(validateRequest(updatePhotoAlbumSchema), updatePhotoAlbum);
+
+router.route("/status/:id").put(authMiddleware, updatePhotoAlbumStatus);
 
 export default router;
