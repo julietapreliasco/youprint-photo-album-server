@@ -13,6 +13,7 @@ export const createPhotoAlbum = async (req: any, res: any) => {
       photos,
       client,
       createdAt: new Date(),
+      isPending: true,
     });
 
     await newPhotoAlbum.save();
@@ -118,6 +119,31 @@ export const updatePhotoAlbum = async (req: any, res: any) => {
     }
 
     photoAlbum.photos = photos;
+    photoAlbum.updatedAt = new Date();
+
+    await photoAlbum.save();
+
+    res.status(200).json(photoAlbum);
+  } catch (error) {
+    res.status(500).json({ error: error });
+  }
+};
+
+export const updatePhotoAlbumStatus = async (req: any, res: any) => {
+  try {
+    const { id } = req.params;
+
+    if (!isValidObjectId(id)) {
+      return res.status(400).json({ error: "Id inválida" });
+    }
+
+    const photoAlbum = await PhotoAlbumModel.findById(id);
+
+    if (!photoAlbum) {
+      return res.status(404).json({ error: "Álbum de fotos no encontrado" });
+    }
+
+    photoAlbum.isPending = !photoAlbum.isPending;
     photoAlbum.updatedAt = new Date();
 
     await photoAlbum.save();
